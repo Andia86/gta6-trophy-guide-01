@@ -1,5 +1,1 @@
-[
-  { "file": "1-checklist.jpg", "path": "/", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "2-silver.jpg", "path": "/", "grade": "silver", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "3-bronze.jpg", "path": "/", "grade": "bronze", "scroll": 1400, "viewport": { "width": 1280, "height": 800 } }
-]
+[{"file":"1-cover.jpg","note":"Checklist with SAMPLE progress loaded and labelled, filters visible, and the missable trophy's guide panel open showing its official description, LAST CHANCE warning and Sources list.","path":"/#demo&trophy=Positive%20Mental%20Attitude","viewport":{"height":800,"width":1280}},{"file":"2-roadmap.jpg","note":"Roadmap to the Platinum: four stages built from the official descriptions, Stage 1 story in order with per-stage earned counts.","path":"/#demo&view=roadmap","viewport":{"height":800,"width":1280}},{"file":"3-missables.jpg","note":"Missables view: the LAST CHANCE banner for the one missable trophy and the save-discipline advice that protects a single playthrough.","path":"/#demo&view=missables","viewport":{"height":800,"width":1280}},{"file":"4-spoiler.jpg","note":"Spoiler shield ON: unearned story trophies show placeholders instead of names and descriptions, with the Data menu open showing export, import, sample and reset.","path":"/#spoiler=1&menu=data","viewport":{"height":800,"width":1280}}]

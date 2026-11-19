@@ -1,7 +1,345 @@
-body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
-header { display: flex; justify-content: space-between; align-items: baseline; }
-.controls { display: flex; gap: 16px; margin: 12px 0; align-items: center; }
-.import input { font-size: 12px; }
-table { border-collapse: collapse; width: 100%; }
-th, td { border-bottom: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; white-space: pre-line; }
-th { background: #f2f2f2; }
+/* Leonida Ledger — an original dusk / coral / teal look.
+   Palette of our own making: deep dusk ink, warm coral for action and
+   warnings, teal for progress and calm states, medal tones for grades.
+   No external fonts, images or assets: system type only, fully offline. */
+
+:root {
+  --ink: #1c2230;
+  --ink-soft: #454e63;
+  --paper: #f7f2ea;
+  --card: #fffdf8;
+  --line: #ddd2bf;
+  --coral: #e4572e;
+  --coral-dark: #b93c1a;
+  --teal: #0f766e;
+  --teal-soft: #d7ece9;
+  --dusk: #2b3350;
+  --gold: #a97b12;
+  --silver: #5f6d7d;
+  --bronze: #9a5b2e;
+  --platinum: #3c6e91;
+  --danger-bg: #fdeee7;
+  --danger-line: #e4572e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+
+#topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px 22px 14px;
+  background: linear-gradient(135deg, #232a44 0%, #2b3350 55%, #0f766e 130%);
+  color: #fdf9f0;
+}
+
+.brand { display: flex; gap: 14px; max-width: 640px; }
+
+.brand-mark {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--coral);
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand h1 { margin: 0; font-size: 30px; letter-spacing: 0.5px; }
+
+.tagline { margin: 4px 0 0; font-size: 14px; color: #e8e2d2; }
+
+#progress-box { min-width: 300px; max-width: 430px; flex: 1; }
+
+#progress-count { font-size: 22px; font-weight: bold; }
+
+#progress-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--coral);
+  transition: width 0.25s ease;
+}
+
+#progress-grades { font-size: 13px; color: #e8e2d2; }
+
+#sample-banner {
+  margin-top: 8px;
+  background: #fff3c4;
+  color: #5c4300;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 22px 0;
+}
+
+.tab {
+  border: 2px solid var(--dusk);
+  background: var(--card);
+  color: var(--dusk);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tab.is-active { background: var(--dusk); color: #fdf9f0; }
+
+#data-menu {
+  margin: 12px 22px 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+#data-menu h2 { margin: 0 0 6px; font-size: 20px; }
+
+.data-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.data-actions button, .import-label {
+  border: 1px solid var(--teal);
+  background: var(--teal-soft);
+  color: #0a4f49;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.import-label input { display: block; margin-top: 4px; font-weight: normal; }
+
+#filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  padding: 14px 22px;
+}
+
+#filter-bar label { font-size: 13px; font-weight: bold; color: var(--ink-soft); }
+
+#filter-bar select, #filter-bar input[type="search"] {
+  display: block;
+  margin-top: 3px;
+  padding: 7px 9px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+}
+
+#filter-bar input[type="search"] { min-width: 250px; }
+
+.spoiler-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px dashed var(--coral);
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+
+#result-count { font-size: 13px; color: var(--ink-soft); font-weight: bold; }
+
+#layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 18px;
+  padding: 0 22px 22px;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  #layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+#trophy-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.trophy-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--bronze);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.trophy-card.grade-platinum { border-left-color: var(--platinum); }
+.trophy-card.grade-gold { border-left-color: var(--gold); }
+.trophy-card.grade-silver { border-left-color: var(--silver); }
+.trophy-card.grade-bronze { border-left-color: var(--bronze); }
+
+.trophy-card.is-earned { background: #eef7f2; }
+
+.trophy-card.is-selected { outline: 3px solid var(--teal); }
+
+.card-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+.earned-check { display: flex; gap: 5px; align-items: center; font-weight: bold; font-size: 14px; margin-right: auto; }
+
+.earned-check input { width: 18px; height: 18px; accent-color: var(--teal); }
+
+.badge {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.4px;
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: #ece5d5;
+  color: var(--ink-soft);
+}
+
+.badge-grade.grade-platinum { background: #d7e6f2; color: var(--platinum); }
+.badge-grade.grade-gold { background: #f7e8bd; color: var(--gold); }
+.badge-grade.grade-silver { background: #e2e8ee; color: var(--silver); }
+.badge-grade.grade-bronze { background: #f3ddc8; color: var(--bronze); }
+.badge-hidden { background: var(--dusk); color: #fdf9f0; }
+.badge-missable { background: var(--coral); color: #fff; }
+.badge-earned { background: var(--teal); color: #fff; }
+
+.trophy-name { margin: 8px 0 4px; font-size: 19px; }
+
+.trophy-desc { margin: 0; font-style: italic; color: var(--ink-soft); }
+
+.trophy-chapter { margin: 5px 0 0; font-size: 13px; font-weight: bold; color: var(--teal); }
+
+.counter-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+
+.counter-row button {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--teal);
+  background: var(--teal-soft);
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.counter-value { font-weight: bold; font-size: 14px; min-width: 86px; }
+
+.counter-bar { flex: 1; height: 8px; border-radius: 4px; background: #e9e1cf; overflow: hidden; }
+
+.counter-fill { height: 100%; background: var(--teal); }
+
+.guide-btn {
+  margin-top: 11px;
+  border: none;
+  border-radius: 8px;
+  background: var(--coral);
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 13px;
+  cursor: pointer;
+}
+
+.guide-btn:hover { background: var(--coral-dark); }
+
+#guide-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  position: sticky;
+  top: 12px;
+}
+
+#guide-panel h2 { margin: 0 0 6px; font-size: 24px; }
+
+#guide-panel h3 { margin: 14px 0 4px; font-size: 16px; color: var(--dusk); }
+
+.panel-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.official-desc { font-style: italic; font-size: 16px; margin: 0; }
+
+.panel-context { font-size: 13px; color: var(--ink-soft); }
+
+.guide-text { margin: 0; font-size: 15px; }
+
+.missable-warning {
+  margin-top: 12px;
+  background: var(--danger-bg);
+  border: 2px solid var(--danger-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.sources-list { margin: 4px 0; padding-left: 20px; font-size: 14px; }
+
+.roadmap-intro, .roadmap-stage, .save-advice {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 13px 17px;
+  margin-bottom: 14px;
+}
+
+.roadmap-list { margin: 6px 0; padding-left: 22px; }
+
+.roadmap-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--teal);
+  cursor: pointer;
+  text-align: left;
+}
+
+.roadmap-meta { font-size: 13px; color: var(--ink-soft); }
+
+.last-chance {
+  background: var(--danger-bg);
+  border: 3px solid var(--danger-line);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+}
+
+.last-chance h2 { margin: 0 0 6px; color: var(--coral-dark); font-size: 24px; }
+
+.missable-note { font-weight: bold; color: var(--coral-dark); }
+
+footer { padding: 4px 22px 24px; font-size: 12px; color: var(--ink-soft); }

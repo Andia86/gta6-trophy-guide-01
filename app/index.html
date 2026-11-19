@@ -3,23 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Ledger — GTA VI Trophy Guide &amp; Tracker (55 PS5 Trophies)</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header id="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">LL</div>
+    <div>
+      <h1>Leonida Ledger</h1>
+      <p class="tagline">Grand Theft Auto VI — the complete PS5 trophy guide &amp; tracker. All 55 trophies: 1 platinum, 2 gold, 6 silver, 46 bronze, 28 hidden. Works fully offline.</p>
+    </div>
+  </div>
+  <div id="progress-box">
+    <div id="progress-count">0 of 55 earned</div>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <div id="progress-grades">Platinum 0/1 · Gold 0/2 · Silver 0/6 · Bronze 0/46</div>
+    <div id="sample-banner" hidden>SAMPLE DATA — this is the built-in demo progress, not your save. <button id="sample-clear" type="button">Clear sample &amp; start mine</button></div>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
-<script type="module" src="app.js"></script>
+
+<nav id="view-tabs" aria-label="Views">
+  <button type="button" class="tab" data-view="checklist">Checklist</button>
+  <button type="button" class="tab" data-view="roadmap">Roadmap to Platinum</button>
+  <button type="button" class="tab" data-view="missables">Missables (1)</button>
+  <button type="button" class="tab" id="data-tab">Data: export / import</button>
+</nav>
+
+<section id="data-menu" hidden>
+  <h2>Your progress data</h2>
+  <p>Progress is saved automatically in this browser (localStorage). Export it to a file to back it up or move it, and import it back on any machine. The demo button loads clearly labelled SAMPLE progress so you can see the tracker filled in.</p>
+  <div class="data-actions">
+    <button id="export-btn" type="button">Export progress (.json)</button>
+    <label class="import-label">Import progress <input id="import-file" type="file" accept="application/json,.json"></label>
+    <button id="demo-btn" type="button">Load SAMPLE progress</button>
+    <button id="reset-btn" type="button">Reset all progress</button>
+  </div>
+  <p id="data-status" role="status"></p>
+</section>
+
+<section id="filter-bar">
+  <label>Search <input id="search" type="search" placeholder="Name, description or guide text…"></label>
+  <label>Kind
+    <select id="kind-filter">
+      <option value="all">All kinds</option>
+      <option value="story">Story</option>
+      <option value="missable">Missable</option>
+      <option value="collectibles">Collectibles</option>
+      <option value="activities">Activities</option>
+      <option value="online">Online (none in this list)</option>
+    </select>
+  </label>
+  <label>Grade
+    <select id="grade-filter">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label>State
+    <select id="state-filter">
+      <option value="all">All trophies</option>
+      <option value="earned">Earned</option>
+      <option value="unearned">Not yet earned</option>
+      <option value="hidden">Hidden only</option>
+    </select>
+  </label>
+  <label class="spoiler-toggle"><input id="spoiler-toggle" type="checkbox"> Spoiler shield: hide unearned story trophies</label>
+  <span id="result-count"></span>
+</section>
+
+<main id="layout">
+  <section id="view-checklist" class="view">
+    <div id="trophy-list"></div>
+  </section>
+  <section id="view-roadmap" class="view" hidden>
+    <div id="roadmap-body"></div>
+  </section>
+  <section id="view-missables" class="view" hidden>
+    <div id="missables-body"></div>
+  </section>
+  <aside id="guide-panel" aria-label="Trophy guide">
+    <div id="guide-empty">
+      <h2>Trophy guide</h2>
+      <p>Select any trophy to read its guide here: the official PlayStation description, a guide in our own words, its missable warning where it has one, and the sources each guide cites.</p>
+      <p>Every name, description and grade is the official PS5 list as published. Guides are written from that list and cite: Official PS5 trophy list (PlayStation) · Exophase — GTA VI trophy list · PSNProfiles — GTA VI trophy guide · GTA Wiki.</p>
+    </div>
+    <div id="guide-content" hidden></div>
+  </aside>
+</main>
+
+<footer>
+  <p>Leonida Ledger — an original, offline fan guide. Not affiliated with Rockstar Games or PlayStation; no official artwork is used. Trophy names and descriptions © their respective owners, shown as published for guidance.</p>
+</footer>
+
+<script src="store.js"></script>
+<script src="views.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
