@@ -25,7 +25,7 @@ const ROADMAP_STAGES = [
   {
     key: 'Stage 1 — Story',
     title: 'Stage 1 — Story, in order',
-    blurb: 'Play the campaign from Gone Fishing to the final mission, in order. Keep a manual save at the start of every chapter — the game has no mission replay — and never use cheats on a trophy run. One stop in this stage is time-sensitive: the Chapter 1 meditation for Positive Mental Attitude, flagged on its card and in the Missables view. Everything else in this stage is unmissable story progress.'
+    blurb: 'Play the campaign from Gone Fishing to the final mission, in order. Keep a manual save at the start of every chapter so that chapter stays within your own reach, and keep cheats out of a trophy run as a precaution. One stop in this stage is time-sensitive: the Chapter 1 meditation for Positive Mental Attitude, flagged on its card and in the Missables view. Everything else in this stage is unmissable story progress.'
   },
   {
     key: 'Stage 2 — Collectibles & Activities',
@@ -155,6 +155,16 @@ function renderGuidePanel(trophy, progress, callbacks) {
   empty.hidden = true;
   panel.hidden = false;
 
+  if (isSpoilerHidden(trophy, progress)) {
+    const shieldTitle = document.createElement('h2');
+    shieldTitle.textContent = 'Story trophy — spoiler shield on';
+    panel.appendChild(shieldTitle);
+    const shieldText = document.createElement('p');
+    shieldText.textContent = 'While the spoiler shield is on and this trophy is unearned, its name, official description and guide all stay hidden in this panel too. Earn it in the game, or switch the shield off in the filter bar, and the full guide appears here.';
+    panel.appendChild(shieldText);
+    return;
+  }
+
   const title = document.createElement('h2');
   title.textContent = trophy.name;
   panel.appendChild(title);
@@ -190,10 +200,18 @@ function renderGuidePanel(trophy, progress, callbacks) {
     strong.textContent = '⚠ MISSABLE — LAST CHANCE IN CHAPTER 1. ';
     warning.appendChild(strong);
     warning.appendChild(document.createTextNode(
-      'One meditation spot for this trophy is a Chapter 1 opportunity that disappears when the chapter ends, and there is no mission replay. Do it as soon as it is offered and keep a Chapter 1 manual save until this trophy is earned.'
+      'One meditation spot for this trophy is a Chapter 1 opportunity that disappears when the chapter ends. Do it as soon as it is offered, and keep a Chapter 1 manual save until this trophy is earned so that moment stays within reach.'
     ));
     panel.appendChild(warning);
   }
+
+  const guideHead = document.createElement('h3');
+  guideHead.textContent = 'Guide (our own words)';
+  panel.appendChild(guideHead);
+  const guide = document.createElement('p');
+  guide.className = 'guide-text';
+  guide.textContent = trophy.guide;
+  panel.appendChild(guide);
 
   const sourcesHead = document.createElement('h3');
   sourcesHead.textContent = 'Sources';
@@ -206,14 +224,6 @@ function renderGuidePanel(trophy, progress, callbacks) {
     list.appendChild(item);
   }
   panel.appendChild(list);
-
-  const guideHead = document.createElement('h3');
-  guideHead.textContent = 'Guide (our own words)';
-  panel.appendChild(guideHead);
-  const guide = document.createElement('p');
-  guide.className = 'guide-text';
-  guide.textContent = trophy.guide;
-  panel.appendChild(guide);
 
   if (trophy.target) {
     const count = document.createElement('p');
@@ -256,7 +266,7 @@ function renderRoadmap(trophies, progress, callbacks) {
   heading.textContent = 'Roadmap to the Platinum — built from the official descriptions';
   intro.appendChild(heading);
   const text = document.createElement('p');
-  text.textContent = 'Four stages, in order. The stage of every trophy comes from what its official description asks for: chapter and mission trophies first, collectibles and activities second, the tracked counts and 100% completion third, and the platinum last. Save discipline for the whole run: a manual save at the start of every chapter, one untouched save before the final mission, no cheats on the trophy save, and the Chapter 1 meditation done the moment it appears.';
+  text.textContent = 'Four stages, in order. The stage of every trophy comes from what its official description asks for: chapter and mission trophies first, collectibles and activities second, the tracked counts and 100% completion third, and the platinum last. Save discipline for the whole run: a manual save at the start of every chapter, one untouched save before the final mission, cheats kept off the trophy save as a precaution, and the Chapter 1 meditation done the moment it appears.';
   intro.appendChild(text);
   body.appendChild(intro);
 
@@ -307,7 +317,7 @@ function renderMissables(trophies, progress, callbacks) {
   bannerTitle.textContent = '⚠ LAST CHANCE — ONE MISSABLE TROPHY';
   banner.appendChild(bannerTitle);
   const bannerText = document.createElement('p');
-  bannerText.textContent = 'The published guides agree there is exactly ONE missable trophy in the 55: Positive Mental Attitude. One of its 18 meditation spots is a Chapter 1 opportunity that disappears when Chapter 1 ends. Story missions cannot be replayed, so a missed spot means a new playthrough. Do it in Chapter 1, and keep a Chapter 1 manual save until the trophy pops.';
+  bannerText.textContent = 'The published guides agree there is exactly ONE missable trophy in the 55: Positive Mental Attitude. One of its 18 meditation spots is a Chapter 1 opportunity that disappears when Chapter 1 ends, and once the chapter closes that spot is gone for this playthrough. Do it in Chapter 1, and keep a Chapter 1 manual save until the trophy pops.';
   banner.appendChild(bannerText);
   body.appendChild(banner);
 
@@ -320,7 +330,7 @@ function renderMissables(trophies, progress, callbacks) {
     'Keep a manual save at the start of every chapter, and never overwrite the Chapter 1 save until Positive Mental Attitude is earned.',
     'Keep one untouched save from just before the final mission.',
     'Rotate the remaining save slots as you play; never rely on the autosave alone.',
-    'Never use cheats on your trophy save — they can disable trophies and saving.',
+    'Keep cheats off your trophy save as a precaution, so nothing about the run is left in doubt.',
     'After Chapter 1, the remaining meditation spots stay available in free roam: sweep them in Stage 2 and tick the counter after each one.'
   ];
   const tipList = document.createElement('ul');

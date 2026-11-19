@@ -44,6 +44,7 @@ const ledgerCallbacks = {
     const next = Math.max(0, Math.min(trophy.target, current + delta * step));
     ledgerState.progress.counters[trophy.name] = next;
     if (next >= trophy.target) ledgerState.progress.earned[trophy.name] = true;
+    else delete ledgerState.progress.earned[trophy.name];
     persistAndRender();
   },
   onSelect(trophy) {
@@ -67,7 +68,13 @@ function trophyMatchesFilters(trophy) {
   if (filters.state === 'unearned' && progress.earned[trophy.name]) return false;
   if (filters.state === 'hidden' && !trophy.hidden) return false;
   if (filters.search) {
-    const haystack = (trophy.name + ' ' + trophy.description + ' ' + trophy.guide + ' ' + (trophy.chapter || '')).toLowerCase();
+    // A shielded story trophy must not leak through search: while the
+    // spoiler shield hides it, only its grade and kind are searchable,
+    // never its name, description, chapter or guide text.
+    const shielded = typeof isSpoilerHidden === 'function' && isSpoilerHidden(trophy, progress);
+    const haystack = shielded
+      ? (trophy.grade + ' ' + trophy.kind + ' hidden story').toLowerCase()
+      : (trophy.name + ' ' + trophy.description + ' ' + trophy.guide + ' ' + (trophy.chapter || '')).toLowerCase();
     if (!haystack.includes(filters.search.toLowerCase())) return false;
   }
   return true;
